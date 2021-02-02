@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version v0.0.7
  */
 @SpringBootApplication
-@MapperScan("com.baomidou.mybatisplus.samples.quickstart.mapper")
+@MapperScan("live.whiteseason.whitebot.mapper")
 public class WhitebotApplication {
 
     public static void main(String[] args) {
