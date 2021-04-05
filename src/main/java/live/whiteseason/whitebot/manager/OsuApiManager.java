@@ -17,5 +17,5 @@ public interface OsuApiManager {
      * @return 返回http请求接口
      */
     @POST("/api/get_user")
-    Call<UserInfo[]> getUserByUid(@Query("k") String apikey, @Query("u") String uid,@Query("m") Integer mod);
+    Call<UserInfo> getUserByUid(@Query("k") String apikey, @Query("u") String uid,@Query("m") Integer mod);
 }
