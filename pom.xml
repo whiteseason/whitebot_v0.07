@@ -28,10 +28,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -44,18 +40,26 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--tool-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
 
@@ -69,15 +73,30 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>mybatis-plus-generator</artifactId>-->
+<!--            <version>3.4.1</version>-->
+<!--        </dependency>-->
+        <!--mybatis自动建表-->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.4.1</version>
+            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
+            <artifactId>mybatis-enhance-actable</artifactId>
+            <version>1.4.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--lettuce 依赖commons-pool-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
         <!--log-->
         <dependency>
@@ -85,16 +104,17 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-        <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-
         <!-- Json解析 -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
+        </dependency>
+
         <!-- HTTP -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
@@ -115,11 +135,17 @@
 
 
         <!--pbbot-->
-        <!--<dependency>
-            <groupId>net.lz1998</groupId>
-            <artifactId>pbbot-spring-boot-starter</artifactId>
-            <version>0.0.22</version>
-        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>net.lz1998</groupId>-->
+<!--            <artifactId>pbbot-spring-boot-starter</artifactId>-->
+<!--            <version>0.0.24</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 不知为何pbbot我缺少这玩意，所以引用补充 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.liferay</groupId>-->
+<!--            <artifactId>com.fasterxml.jackson.databind</artifactId>-->
+<!--            <version>2.10.3.LIFERAY-PATCHED-1</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
@@ -139,5 +165,7 @@
             </plugin>
         </plugins>
     </build>
+
+
 
 </project>
