@@ -5,10 +5,76 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/whitebot?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
-    #数据库用户名
     username:
-    #数据库密码
     password:
+    druid:
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 初始化大小,最小,最大
+      initial-size: 5
+      max-active: 50
+      min-idle: 5
+      # 配置获取连接等待超时时间
+      max-wait: 60000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 'x'
+      validation-query-timeout: 60000
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      log-abandoned: true
+      remove-abandoned: true
+      remove-abandoned-timeout: 1800
+      filters: stat,wall
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*'
+
+      # 管理后台的url和登录账号密码
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username:
+        login-password:
+
+      # 配置StatFilter
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        # 配置WallFilter
+        wall:
+          db-type: mysql
+          enabled: true
+          config:
+            delete-allow: true
+            drop-table-allow: false
+            multi-statement-allow: true
+            delete-where-alway-true-check: true
+            delete-where-none-check: true
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+  redis:
+    #redis相关
+    database: 0
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 1000ms
+      shutdown-timeout: 100ms
 
 #log
 logging:
@@ -23,4 +89,15 @@ mybatis-plus:
       id-type: auto
       table-underline: true
     banner: false
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#自动化建表配置
+mybatis:
+  table:
+    auto: update
+  model:
+    pack: live.whiteseason.whitebot.domain
+  database:
+    type: mysql
