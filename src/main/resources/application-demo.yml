@@ -101,3 +101,11 @@ mybatis:
     pack: live.whiteseason.whitebot.domain
   database:
     type: mysql
+#v2相关
+OSU:
+  V2:
+    ClientCredentialToken: "{client_id: '',
+    client_secret: '',
+    grant_type: 'client_credentials',
+    scope: 'public'
+    }"
