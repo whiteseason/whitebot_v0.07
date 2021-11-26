@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * redis工具类
  * @author whiteseason
  */
 @Slf4j

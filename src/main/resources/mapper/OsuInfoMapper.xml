@@ -3,7 +3,7 @@
 <mapper namespace="live.whiteseason.whitebot.mapper.OsuInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="live.whiteseason.whitebot.domain.entity.OsuInfo">
+    <resultMap id="BaseResultMap" type="live.whiteseason.whitebot.domain.OsuInfo">
         <id column="id" property="id" />
         <result column="osu_id" property="osuId" />
         <result column="mode" property="mode" />

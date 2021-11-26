@@ -1,16 +1,17 @@
-package live.whiteseason.whitebot.pojo.osu;
+package live.whiteseason.whitebot.modules.osuapi.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
 /**
  * @author whiteseason,mothership
  */
 @Data
-public class UserInfo {
+public class UserInfo implements Serializable {
+    private static final long serialVersionUID = 3721387789061410583L;
     /**
      * 这个字段不写入数据库
      */
@@ -28,13 +29,20 @@ public class UserInfo {
     @Expose
     private int count50;
     @Expose
+    private String country;
+    @Expose
     @SerializedName("playcount")
     private int playCount;
+    @Expose
+    @SerializedName("pp_country_rank")
+    private int countryRank;
     @Expose
     private float accuracy;
     @Expose
     private float ppRaw;
-//    private long rankedScore;
+    @Expose
+    @SerializedName("ranked_score")
+    private long rankedScore;
 //    private long totalScore;
 //    private float level;
     @Expose

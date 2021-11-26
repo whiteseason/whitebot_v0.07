@@ -30,6 +30,7 @@ final class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBody
 
         MediaType contentType = value.contentType();
         Charset charset = contentType != null ? contentType.charset(UTF_8) : UTF_8;
+        //去除v1数据返回带来的大括号[]，方便gson处理数据
         InputStream inputStream = new ByteArrayInputStream(response.substring(1,response.length()-1).getBytes());
         Reader reader = new InputStreamReader(inputStream, charset);
         JsonReader jsonReader = gson.newJsonReader(reader);

@@ -3,11 +3,11 @@
 <mapper namespace="live.whiteseason.whitebot.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="live.whiteseason.whitebot.domain.entity.User">
+    <resultMap id="BaseResultMap" type="live.whiteseason.whitebot.domain.User">
         <id column="qq_id" property="qqId" />
         <result column="osu_id" property="osuId" />
         <result column="from_group" property="fromGroup" />
-        <result column="level" property="level" />
+        <result column="is_admin" property="isAdmin" />
         <result column="version" property="version" />
     </resultMap>
 

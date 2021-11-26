@@ -1,24 +1,27 @@
 package live.whiteseason.whitebot.util.redis;
 
-import live.whiteseason.whitebot.service.OsuV2TokenService;
+import live.whiteseason.whitebot.modules.osuapi.service.OsuV2TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
 
 /**
- * 监听redis key失效后处理方法
+ * 监听redis key失效后更新TOKEN
  * @author whiteseason
  */
 @Slf4j
 @Component
 public class KeyExpiredListener implements MessageListener, ApplicationRunner {
+    @Lazy
     @Autowired
     OsuV2TokenService osuV2TokenService;
+    //懒加载，防止出现循环依赖
+    @Lazy
     @Autowired
     RedisUtil redisUtil;
     @Override
@@ -28,14 +31,14 @@ public class KeyExpiredListener implements MessageListener, ApplicationRunner {
 //        System.out.println(new String(message.getChannel()));
 //        System.out.println(new String(pattern));
         if(message.toString().equals("Bearer")){
-            osuV2TokenService.getClientCredentialToken();
+            osuV2TokenService.saveClientCredentialToken();
         }
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (!redisUtil.hasKey("Bearer")){
-            osuV2TokenService.getClientCredentialToken();
+            osuV2TokenService.saveClientCredentialToken();
         }
     }
 }

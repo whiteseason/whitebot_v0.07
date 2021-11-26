@@ -1,5 +1,6 @@
-package live.whiteseason.whitebot.domain.entity;
+package live.whiteseason.whitebot.modules.osuapi.model.v2;
 
+import com.gitee.sunchenbin.mybatis.actable.annotation.IgnoreTable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -7,9 +8,11 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * OSU Api v2版本验证
  * @author whiteseason
  */
 @Data
+@IgnoreTable
 public class ClientCredentialToken implements Serializable {
     private static final long serialVersionUID = 8680281182685496018L;
     @Expose

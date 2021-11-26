@@ -1,90 +1,89 @@
-package live.whiteseason.whitebot.domain.entity;
+package live.whiteseason.whitebot.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.Version;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.gitee.sunchenbin.mybatis.actable.annotation.*;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlCharsetConstant;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * 
- * </p>
+ * 存储玩家基本数据
  *
  * @author whiteseason
  * @since 2021-02-02
  */
-@Table(name = "osu_info")
+@Table
+@TableCharset(MySqlCharsetConstant.UTF8)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class OsuInfo extends Model<OsuInfo> {
+public class OsuInfo extends Model<OsuInfo> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
-    @IsKey
-    @IsAutoIncrement
-    @IsNotNull
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
+    private static final long serialVersionUID = 141356971450034587L;
     /**
      * 玩家uid
      */
+    @IsKey
+    @Column(name = "osu_id")
     @IsNotNull
-    @ColumnType(MySqlTypeConstant.INT)
-    @Column(comment = "玩家uid")
     private Integer osuId;
 
     /**
      * 玩家模式
      */
-    @IsNotNull
-    @DefaultValue("0")
-    @Column(comment = "玩家模式")
+    @Column
     private Integer mode;
 
     /**
      * 玩家pp
      */
-    @Column(comment = "玩家总pp")
+    @Column(name = "pp_raw")
     private Float ppRaw;
 
     /**
      * 玩家acc
      */
-    @Column(comment = "玩家总acc")
+    @Column(decimalLength = 2)
     private Float accuracy;
 
     /**
      * 玩家游玩次数
      */
-    @Column(comment = "玩家pc")
+    @Column(name = "play_count")
     private Integer playCount;
 
     /**
      * 总点击次数
      */
-    @Column(comment = "总点击次数")
+    @Column
     private Long tth;
-
+    /**
+     * 总rank分数
+     */
+    @Column(name = "rank_score")
+    private Long rankScore;
+    /**
+     * 地区排名
+     */
+    @Column(name = "country_rank")
+    private int countryRank;
+    /**
+     * 世界排名
+     */
+    @Column(name = "pp_rank")
+    private int ppRank;
     /**
      * 版本
      */
-    @Version
     @ColumnType(MySqlTypeConstant.TIMESTAMP)
-    @Column(comment = "乐观锁")
+    @Column
+    @Version
     private LocalDateTime version;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

@@ -1,8 +1,8 @@
-package live.whiteseason.whitebot.service.impl;
+package live.whiteseason.whitebot.modules.osuapi.service.impl;
 
-import live.whiteseason.whitebot.domain.entity.ClientCredentialToken;
-import live.whiteseason.whitebot.manager.OsuApiV2Manager;
-import live.whiteseason.whitebot.service.OsuV2TokenService;
+import live.whiteseason.whitebot.modules.osuapi.model.v2.ClientCredentialToken;
+import live.whiteseason.whitebot.modules.osuapi.service.manager.OsuApiTokenManager;
+import live.whiteseason.whitebot.modules.osuapi.service.OsuV2TokenService;
 import live.whiteseason.whitebot.util.redis.RedisUtil;
 import live.whiteseason.whitebot.util.RetryCallback;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class OsuV2TokenServiceImpl implements OsuV2TokenService {
 
     @Autowired
-    OsuApiV2Manager v2Manager;
+    OsuApiTokenManager v2Manager;
     @Autowired
     RedisUtil redisUtil;
 
@@ -30,8 +30,8 @@ public class OsuV2TokenServiceImpl implements OsuV2TokenService {
     Map<String, String> clientCredentialToken;
 
     @Override
-    public boolean getClientCredentialToken() {
-        Call<live.whiteseason.whitebot.domain.entity.ClientCredentialToken> call = v2Manager.getClientCredentialToken(clientCredentialToken);
+    public void saveClientCredentialToken() {
+        Call<ClientCredentialToken> call = v2Manager.getClientCredentialToken(clientCredentialToken);
         call.enqueue(new RetryCallback<ClientCredentialToken>(call,5,5000) {
             @Override
             public void onRequestResponse(Call<ClientCredentialToken> call, Response<ClientCredentialToken> response) {
@@ -39,7 +39,7 @@ public class OsuV2TokenServiceImpl implements OsuV2TokenService {
                     // tasks available
                     ClientCredentialToken token1 = response.body();
                     if (token1 != null){
-                        redisUtil.set(token1.getTokenType(),token1,token1.getExpiresIn());
+                        redisUtil.set(token1.getTokenType(),token1.getAccessToken(),token1.getExpiresIn());
                         log.info("Token请求成功,请求过期时间："+redisUtil.getExpire(token1.getTokenType()));
                     }else {
                         log.error("请求Token为空");
@@ -61,30 +61,12 @@ public class OsuV2TokenServiceImpl implements OsuV2TokenService {
                 log.warn("Token网络请求出现错误，开始重试");
             }
         });
-//        call.enqueue(new Callback<ClientCredentialToken>() {
-//            @Override
-//            public void onResponse(Call<ClientCredentialToken> call, Response<ClientCredentialToken> response) {
-//                if (response.isSuccessful()) {
-//                    // tasks available
-//                    ClientCredentialToken token1 = response.body();
-//                    if (token1 != null){
-//                        redisUtil.set(token1.getTokenType(),token1,token1.getExpiresIn());
-//                        log.info("Token请求成功,请求过期时间："+redisUtil.getExpire(token1.getTokenType()));
-//                    }else {
-//                        log.error("请求Token为空");
-//                    }
-//
-//                } else {
-//                    // error response, no access to resource?
-//                    log.error("Token请求失败，error response, no access to resource");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ClientCredentialToken> call, Throwable throwable) {
-//                log.error("Token请求错误",throwable);
-//            }
-//        });
-        return true;
     }
+
+    @Override
+    public String getClientCredentialToken(){
+        return "Bearer " + redisUtil.get("Bearer");
+    }
+
+
 }

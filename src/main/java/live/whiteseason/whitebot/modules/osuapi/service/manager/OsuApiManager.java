@@ -1,6 +1,6 @@
-package live.whiteseason.whitebot.manager;
+package live.whiteseason.whitebot.modules.osuapi.service.manager;
 
-import live.whiteseason.whitebot.pojo.osu.UserInfo;
+import live.whiteseason.whitebot.modules.osuapi.model.UserInfo;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
